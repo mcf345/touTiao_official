@@ -14,6 +14,8 @@ import "amfe-flexible";
 import Vant from "vant";
 //引入vant组件库样式
 import "vant/lib/index.less";
+// 引入dayjs组件包
+import "@/utils/dayjs";
 //引入axios
 // import request from "./utils/request";
 //测试接口是否可用

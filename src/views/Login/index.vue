@@ -1,6 +1,10 @@
 <template>
   <div class="login-container">
-    <van-nav-bar title="登录" />
+    <van-nav-bar title="登录">
+      <template #left>
+        <van-icon name="cross" color="#fff" @click="$router.back()" />
+      </template>
+    </van-nav-bar>
 
     <van-form @submit="onSubmit" ref="form">
       <van-field
@@ -15,6 +19,7 @@
           <ToutiaoIcon icon="shouji" />
         </template>
       </van-field>
+
       <van-field
         v-model="user.code"
         type="number"
@@ -65,7 +70,8 @@ export default {
       isShowTime: false,
       isDisabled: false,
       user: {
-        mobile: 15968378091,
+        // mobile: 15968378091,
+        mobile: 13911111112,
         code: 246810,
       },
       rules: {
@@ -96,7 +102,10 @@ export default {
       try {
         const res = await Login(this.user);
         console.log(res);
+        // 登录成功以后获取的数据存储到vuex和本地存储当中
+        this.$store.commit("setUser", res.data.data);
         Toast.success("登录成功");
+        this.$router.push("/mine");
       } catch (e) {
         console.log(e);
         Toast.fail(e?.response?.data?.message || "出错了");
@@ -105,6 +114,9 @@ export default {
     // 验证码
     async sendBtn() {
       try {
+        // 通过传入表单name值，决定校验哪个表单 validate(name?: string | string[])
+        // Promise: 异步解决方案。 解决了什么问题？回调地域 >> 链式调用形式 >> 每一次then返回一个新的promise
+        // async await >> 链式调用(不够优雅) >> 看起来是同步形式
         // 校验
         await this.$refs.form.validate("mobile");
       } catch (e) {

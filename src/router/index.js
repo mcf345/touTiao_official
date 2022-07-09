@@ -16,6 +16,32 @@ const routes = [
     component: () => import("@/views/Login"),
     name: "login",
   },
+  {
+    path: "/demo",
+    component: () => import("@/views/demo.vue"),
+  },
+  {
+    path: "/",
+    component: () => import("@/views/Layout"),
+    children: [
+      {
+        path: "home",
+        component: () => import("@/views/home"),
+      },
+      {
+        path: "qa",
+        component: () => import("@/views/qa"),
+      },
+      {
+        path: "video",
+        component: () => import("@/views/video"),
+      },
+      {
+        path: "mine",
+        component: () => import("@/views/mine"),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({
