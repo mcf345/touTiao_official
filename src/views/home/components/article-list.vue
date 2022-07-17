@@ -39,9 +39,9 @@
           :title="item.title"
         /> -->
         <ArticleItem
-          :article="item"
           v-for="(item, index) in list"
           :key="index"
+          :article="item"
         />
       </van-list>
     </van-pull-refresh>

@@ -8,6 +8,7 @@
           icon="search"
           size="small"
           block
+          to="/search"
           class="search-btn"
           >搜索</van-button
         >
@@ -40,7 +41,11 @@
       style="height: 90%"
     >
       <!-- 弹出层内容 -->
-      <channelEdit :active="active" :userChannel="userChannel" />
+      <channelEdit
+        @changeActive="changeActive"
+        :active="active"
+        :userChannel="userChannel"
+      />
     </van-popup>
   </div>
 </template>
@@ -49,6 +54,8 @@
 import { getUserCannel } from "@/api/cannel.js";
 import ArticleList from "@/views/home/components/article-list.vue";
 import channelEdit from "@/views/home/components/channel-edit.vue";
+import { getLocal } from "@/utils/storages.js";
+import { USERCHANNELKEY } from "@/api/userChannels.js";
 export default {
   name: "HomePage",
   components: {
@@ -70,9 +77,29 @@ export default {
   },
   mounted() {},
   methods: {
+    // 修改active值的方法
+    changeActive(index, flag) {
+      this.active = index;
+      // 弹层关闭
+      this.showPopup = flag;
+    },
+    // 获取用户频道数据
     async getTheUserCannel() {
-      const res = await getUserCannel();
-      this.userChannel = res.data.data.channels;
+      // const res = await getUserCannel();
+      // this.userChannel = res.data.data.channels;
+      try {
+        // 获取用户token
+        const token = this.$store.state.user?.token;
+        let channels = getLocal(USERCHANNELKEY);
+        // 判断是否登录或本地存储是否有数据
+        if (token || !channels) {
+          const res = await getUserCannel();
+          channels = res.data.data.channels;
+        }
+        this.userChannel = channels;
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
 };

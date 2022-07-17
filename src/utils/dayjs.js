@@ -14,7 +14,7 @@ dayjs.extend(relativeTime);
 dayjs.locale("zh-cn");
 
 // 当前时间 to 目标时间
-console.log(dayjs().to(dayjs("2001-04-06"))); // 多少年前
+// console.log(dayjs().to(dayjs("2001-04-06"))); // 多少年前
 
 // 过滤器
 Vue.filter("relativeTime", (value) => {

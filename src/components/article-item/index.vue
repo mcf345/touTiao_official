@@ -1,18 +1,23 @@
 <template>
   <div class="article-item">
-    <van-cell :title="article.title">
+    <van-cell :title="article.title" :to="`/article/${article.art_id}`">
       <template #default v-if="article.cover.type === 1">
-        <van-image class="img" :src="article.cover.images[0]"></van-image>
+        <van-image fit="contain" class="img" :src="article.cover.images[0]">
+          <template v-slot:error>加载失败</template></van-image
+        >
       </template>
 
       <template #label>
         <div class="img-container" v-if="article.cover.type === 3">
           <van-image
+            fit="contain"
             class="img-three"
             v-for="(item, index) in article.cover.images"
             :key="index"
             :src="item"
-          ></van-image>
+          >
+            <template v-slot:error>加载失败</template>
+          </van-image>
         </div>
         <div>
           <span>{{ article.aut_name }}</span>
